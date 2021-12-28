@@ -2,6 +2,8 @@ video=""
 status=""
 objects=[];
 percentage=0;
+synthesizer="";
+object_label="";
 
 function preload(){
 }
@@ -18,6 +20,7 @@ function draw(){
       fill(red,green,blue);
       percentage=floor(objects[i].confidence*100)
       text(objects[i].label + " " + percentage + " % ",objects[i].x+30,objects[i].y+30);
+      object_label=objects[i].label;
       noFill();
       stroke("red");
       rect(objects[i].x,objects[i].y,objects[i].width,objects[i].height);
@@ -26,7 +29,7 @@ function draw(){
       video.stop();   
       document.getElementById("object").innerHTML= input + " Has been found ";
       objectDetector.detect(video,gotResults);
-      
+      speak();
 
           }
    }
@@ -61,4 +64,13 @@ function gotResults(error,results){
     console.log(results);
     objects=results;
   }
+}
+
+function speak(){
+  var synthesizer=window.speechSynthesis
+  speakdata=object_label + "Has been Found";
+  alert(speakdata);
+  var Utterthis=new SpeechSynthesisUtterance(speakdata);
+  synthesizer.speak(Utterthis);
+  
 }
